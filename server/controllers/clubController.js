@@ -71,10 +71,10 @@ exports.updateClubById = async (req, res) => {
     }
 };
 //클럽 삭제
-exports.deleteClubBYId = async (req, res) => {
+exports.deleteClubById = async (req, res) => {
     const { club_id } = req.params;
     try {
-        const club = await Club.deleteClubBYId(club_id);
+        const club = await Club.deleteClubById(club_id);
         if (club.data.affectedRows === 0) {
             // 조건에 맞는 데이터가 없는 경우
             return res.status(404).json({ success: "0", message: 'Club not found.' });
@@ -84,6 +84,62 @@ exports.deleteClubBYId = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'An error occurred', error });
+    }
+};
+//클럽원 조회
+exports.getClubMemberById = async (req, res) => {
+    const { club_id } = req.params; // URL에서 클럽 ID 추출
+    try {
+        const clubMember = await Club.getClubMemberById(club_id); // 모델 호출
+        if (clubMember) {
+            res.status(200).json(clubMember); // 클럽 데이터 반환
+        } else {
+            res.status(404).json({ message: 'Club not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch clubMember', error });
+    }
+};
+// 클럽지원명단 조회
+exports.getClubApplicationMemberById = async (req, res) => {
+    const { club_id } = req.params; // URL에서 클럽 ID 추출
+    try {
+        const clubApplicationMember = await Club.getClubApplicationMemberById(club_id); // 모델 호출
+        if (clubApplicationMember) {
+            res.status(200).json(clubApplicationMember); // 클럽 데이터 반환
+        } else {
+            res.status(404).json({ message: 'Club not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch clubApplicationMember', error });
+    }
+};
+// 클럽행사 조회
+exports.getClubEventsById = async (req, res) => {
+    const { club_id } = req.params; // URL에서 클럽 ID 추출
+    try {
+        const clubEvent = await Club.getClubEventsById(club_id); // 모델 호출
+        if (clubEvent) {
+            res.status(200).json(clubEvent); // 클럽 데이터 반환
+        } else {
+            res.status(404).json({ message: 'Club not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch clubEvent', error });
+    }
+};
+// 클럽 모집공고 조회
+exports.getClubRecruitmentById = async (req, res) => {
+    const { club_id } = req.params; // URL에서 클럽 ID 추출
+    try {
+        const clubRecruitment = await Club.getClubRecruitmentById(club_id); // 모델 호출
+        if (clubRecruitment) {
+            res.status(200).json(clubRecruitment); // 클럽 데이터 반환
+        } else {
+            res.status(404).json({ message: 'Club not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch clubEvent', error });
     }
 };
 

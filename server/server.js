@@ -21,8 +21,8 @@ app.use(express.json());
 // API Routes
 app.use('/api/users', userRoutes); // 사용자 라우트
 app.use('/api/clubs', clubRoutes); // 클럽 라우트
-app.use('/api/recruitments', recruitmentRoutes);
-app.use('/api/events', eventRoutes);
+app.use('/api/recruitments', recruitmentRoutes); //모집공고 라우트
+app.use('/api/events', eventRoutes); //행사 라우트
 
 // 기본 라우트
 app.get('/', (req, res) => {
