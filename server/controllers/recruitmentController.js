@@ -26,12 +26,12 @@ exports.getRecruitmentById = async (req, res) => {
 };
 exports.createRecruitmentById = async (req, res) => {
     const { club_id } = req.params;
-    const{description, deadline} = req.body;
-    if (!description || !deadline ) {
+    const{title,description, deadline} = req.body;
+    if (!title||!description || !deadline ) {
         return res.status(400).json({ message: 'All fields are required.' });
     }
     try{
-        const recruitment = await Recruitment.createRecruitmentById(club_id, {description, deadline});
+        const recruitment = await Recruitment.createRecruitmentById(club_id, {title, description, deadline});
         res.status(201).json({ message: 'recruitment created successfully', recruitmentId: recruitment.insertId });
     } catch(error){
         console.error(error);
@@ -40,12 +40,12 @@ exports.createRecruitmentById = async (req, res) => {
 };
 exports.updateRecruitmentById = async (req, res) => {
     const { recruitment_id } = req.params;
-    const {description, deadline} = req.body;
-    if (!description || !deadline ) {
+    const {title,description, deadline} = req.body;
+    if (!title||!description || !deadline ) {
         return res.status(400).json({ message: 'All fields are required.' });
     }
     try {
-        const recruitment = await Recruitment.updateEventByEventId(recruitment_id, {description, deadline});
+        const recruitment = await Recruitment.updateEventByEventId(recruitment_id, {title, description, deadline});
         if (recruitment.data.affectedRows === 0) {
             // 조건에 맞는 데이터가 없는 경우
             return res.status(404).json({ message: 'recruitment not found.' });

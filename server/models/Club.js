@@ -11,14 +11,14 @@ class Club{
             });
         });
     };
-    //클럽 생성
-    static createClub({club_name, leader_id, description, contact_email, category}) {
+    //클럽 생성 
+    static createClub({club_name, description, category, contact_email, contact_phone, club_sns}) {
         return new Promise((resolve, reject) => {
             const query = `
-                INSERT INTO CLUB (club_name, leader_id, description, contact_email, category)
-                VALUES (?, ?, ?, ?, ?);
+                INSERT INTO CLUB (club_name, description, category, contact_email, contact_phone, club_sns)
+                VALUES (?, ?, ?, ?, ?, ?);
             `;
-            const values = [club_name, leader_id, description, contact_email, category];
+            const values = [club_name, description, category, contact_email, contact_phone, club_sns];
 
             db.query(query, values, (err, data) => {
                 if(err) reject`{$(err)}`;
@@ -36,11 +36,11 @@ class Club{
             });
         });
     }
-    //클럽 업데이트
-    static updateClubById(club_id, { club_name, leader_id, description, contact_email, category }) {
+    //클럽 업데이트 
+    static updateClubById(club_id, { club_name, description, category, contact_email, contact_phone, club_sns }) {
         return new Promise((resolve, reject)=>{
-            const query = "UPDATE CLUB SET club_name = ?, leader_id = ?, description = ?, contact_email = ?, category = ? WHERE club_id = ?;"
-            const values = [club_name, leader_id, description, contact_email, category, club_id];
+            const query = "UPDATE CLUB SET club_name = ?, description = ?, category = ?, contact_email = ?, contact_phone = ?, club_sns = ?  WHERE club_id = ?;"
+            const values = [club_name, description, category, contact_email, contact_phone, club_sns];
             db.query(query, values, (err, data) =>{
                 if(err) reject({err});
                 resolve({data:data,sucess: "1",  message: 'Club updated successfully', updatedId: club_id });
@@ -60,7 +60,7 @@ class Club{
     // 전체 클럽 멤버 조회
     static getClubMemberById(club_id) {
         return new Promise((resolve, reject)=>{
-            const query = `select U.name, U.email, U.user_id, M.role 
+            const query = `select U.username, U.email,U.phone, U.user_id, M.role, M.activity 
             from ajoucm.USER as U, ajoucm.CLUB as C, ajoucm.MEMBER as M 
             where U.user_id = M.user_id and C.club_id = M.club_id 
             and M.status = "승인"  and C.club_id=?;`;
@@ -73,7 +73,7 @@ class Club{
     //클럽 지원 멤버 조회
     static getClubApplicationMemberById(club_id) {
         return new Promise((resolve, reject)=>{
-            const query = `select U.name, U.email, U.user_id
+            const query = `select U.username, U.email,U.phone, U.user_id, U.phone
             from ajoucm.USER as U, ajoucm.CLUB as C, ajoucm.MEMBER as M 
             where U.user_id = M.user_id and C.club_id = M.club_id 
             and M.status = "대기"  and C.club_id=?;`;
@@ -98,7 +98,7 @@ class Club{
     //클럽 모집공고 조회
     static getClubRecruitmentById(club_id) {
         return new Promise((resolve, reject)=>{
-            const query = `select R.recruitment_id, R.description, R.posted_date,R.deadline,R.update_at
+            const query = `select R.recruitment_id, R.title, R.description, R.posted_date,R.deadline
             from ajoucm.CLUB as C, ajoucm.RECRUITMENT as R 
             where C.club_id = R.club_id and C.club_id=?`;
             db.query(query, [club_id], (err, data) =>{

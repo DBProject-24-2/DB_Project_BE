@@ -19,13 +19,13 @@ class Recruitment {
             });
         });
     };
-    static createRecruitmentById(club_id, {description, deadline}) {
+    static createRecruitmentById(club_id, {title, description, deadline}) {
         return new Promise((resolve, reject) => {
             const query = `
-                INSERT INTO RECRUITMENT (club_name, description, deadline)
-                VALUES (?, ?, ?);
+                INSERT INTO RECRUITMENT (club_id,title, description, deadline)
+                VALUES (?,?, ?, ?);
             `;
-            const values = [club_id, description, deadline];
+            const values = [club_id,title, description, deadline];
 
             db.query(query, values, (err, data) => {
                 if(err) reject`{$(err)}`;
@@ -33,10 +33,10 @@ class Recruitment {
             });
         });
     };
-    static updateEventByEventId(recruitment_id, {description, deadline}) {
+    static updateEventByEventId(recruitment_id, {title,description, deadline}) {
         return new Promise((resolve, reject)=>{
-            const query = "UPDATE RECRUITMENT SET description = ?, deadline = ? WHERE club_id = ?;"
-            const values = [description, deadline, recruitment_id];
+            const query = "UPDATE RECRUITMENT SET title=?, description = ?, deadline = ? WHERE club_id = ?;"
+            const values = [title, description, deadline, recruitment_id];
             db.query(query, values, (err, data) =>{
                 if(err) reject({err});
                 resolve({data:data,sucess: "1",  message: 'RECRUITMENT updated successfully', updatedId: recruitment_id });

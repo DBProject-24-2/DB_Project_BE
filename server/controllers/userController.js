@@ -23,31 +23,31 @@ exports.getUserByUserId = async (req, res) => {
     }
     
 };
-//유저 생성
+//유저 생성 
 exports.createUser = async (req, res) => {
-    const{password, email, name} = req.body;
+    const{password, email, username, phone} = req.body;
     // 필수 필드가 모두 있는지 확인
-    if (!password || !email || !name ) {
+    if (!password || !email || !username || !phone) {
         return res.status(400).json({ message: 'All fields are required.' });
     }
     
     try{
-        const user = await User.createUser({password, email, name});
+        const user = await User.createUser({password, email, username, phone});
         res.status(201).json({ message: 'User created successfully', userId: user.insertId });
     } catch(error){
         console.error(error);
         res.status(500).json({ message: 'Database error.' });
     }
 };
-//유저 내용 수정
+//유저 업데이트 
 exports.updateUserByUserId = async (req, res) => {
     const { user_id } = req.params;
-    const{password, email, name} = req.body;
-    if (!password || !email || !name) {
+    const{password, email, username, phone} = req.body;
+    if (!password || !email || !username ||!phone) {
         return res.status(400).json({ message: 'All fields are required.' });
     }
     try {
-        const user = await User.updateUserByUserId(user_id, {password ,email ,name});
+        const user = await User.updateUserByUserId(user_id, {password, email, username, phone});
         if (user.data.affectedRows === 0) {
             // 조건에 맞는 데이터가 없는 경우
             return res.status(404).json({ message: 'User not found.' });
@@ -76,7 +76,7 @@ exports.deleteUserByUserId = async (req, res) => {
     }
 }
  exports.getUserClubByUserId = async (req, res) => {
-        const { user_id } = req.params; // URL에서 클럽 ID 추출
+        const { user_id } = req.params; // URL에서 유저 ID 추출
         try {
             const user = await User.getUserClubByUserId(user_id); // 모델 호출
             if (user) {
