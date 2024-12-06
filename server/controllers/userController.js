@@ -114,4 +114,17 @@ exports.getManagementClubByUserId = async (req, res) => {
         res.status(500).json({ message: 'Failed to fetch user', error });
     }
 };
+exports.getUserApplicationById = async (req, res) => {
+    const { club_id, user_id } = req.params; // URL에서 클럽 ID 추출
+    try {
+        const user = await User.getUserApplicationById(club_id, user_id); // 모델 호출
+        if (user) {
+            res.status(200).json(user); // 클럽 데이터 반환
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch user', error });
+    }
+}; 
 

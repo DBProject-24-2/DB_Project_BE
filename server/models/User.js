@@ -1,6 +1,7 @@
 const db = require("../config/db");
 
 class User{
+    //전체 유저 조회
     static getUsers() {
         return new Promise((resolve, reject)=>{
             const query = "SELECT * FROM USER";
@@ -10,6 +11,7 @@ class User{
             });
         });
     };
+    //유저 생성
     static createUser({password, email, name}) {
         return new Promise((resolve, reject) => {
             const query = `
@@ -24,6 +26,7 @@ class User{
             });
         });
     }
+    //유저 조회
     static getUserByUserId(user_id) {
         return new Promise((resolve, reject)=>{
             const query = "SELECT * FROM USER where user_id = ?;";
@@ -33,6 +36,7 @@ class User{
             });
         });
     }
+    //유저 업데이트
     static updateUserByUserId(user_id, {password ,email ,name}) {
         return new Promise((resolve, reject)=>{
             const query = "UPDATE USER SET password = ?, email = ?, name = ?WHERE club_id = ?;"
@@ -43,6 +47,7 @@ class User{
             });
         });
     }
+    //유저 삭제
     static deleteUserByUserId(user_id){
         return new Promise((resolve, reject)=>{
             const query = "DELETE FROM USER WHERE user_id = ?";
@@ -53,6 +58,7 @@ class User{
         });
         
     }
+    //유저가 가입한 클럽
     static getUserClubByUserId(user_id){
         return new Promise((resolve, reject)=>{
             const query = `SELECT U.user_id, M.club_id, C.club_name
@@ -66,6 +72,7 @@ class User{
             });
         });
     }
+    //유저가 지원한 클럽
     static getUserApplicatedClubByUserId(user_id){
         return new Promise((resolve, reject)=>{
             const query = `SELECT U.user_id, M.club_id, C.club_name
@@ -79,6 +86,7 @@ class User{
             });
         });
     }
+    //유저가 관리하는 클럽
     static getManagementClubByUserId(user_id){
         return new Promise((resolve, reject)=>{
             const query = `SELECT U.user_id, M.club_id, C.club_name
