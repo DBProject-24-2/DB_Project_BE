@@ -118,6 +118,17 @@ class Club{
         });
     }
     //현재 모집중인 클럽
+    static getOpenClubs(){
+        return new Promise((resolve, reject)=>{
+            const today = new Date();
+            console.log(today);
+            const query = "SELECT * FROM CLUB as C, RECRUITMENT as R where C.club_id = R.club_id AND R.deadline > ?";
+            db.query(query, [today], (err, data) =>{
+                if(err) reject`{$(err)}`;
+                resolve(data);
+            });
+        });
+    }
 }
 
 module.exports = Club;

@@ -186,6 +186,15 @@ exports.upadateApproveMember = async (req, res) => {
         res.status(500).json({ message: 'An error occurred', error: error.message });
     }
 };
+ //현재 모집중인 클럽
+exports.getOpenClubs = async (req, res) => {
+    try {
+        const clubs = await Club.getOpenClubs();
+        res.status(200).json(clubs);
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to fetch clubs', error });
+    }
+};
 
 
 
